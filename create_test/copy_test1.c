@@ -20,24 +20,27 @@ int main() {
             break;
         }
 
-	if (strcmp(input, "createFolder") == 0){
-		createFolder();
+	if (strcmp(input,"minisystem") == 0){
+		minisystem();
         }
         
-	else if (strcmp(input, "deleteFolder") == 0){
-		deleteFolder();
+	else if (strcmp(input,"printme") == 0){
+		printme();
 	}
 
-	else if (strcmp(input, "copyFile") == 0){
-		copyFile();
+	else if (strcmp(input,"tryfork") == 0){
+		tryfork();
 	}
 
-	else if (strcmp(input, "fileSearch") == 0){
-		filesearch(NULL, NULL);	
+	else if (strcmp(input,"tryipc") == 0){
+		tryipc();	
 	}
-	
-	else if (strcmp(input, "filePath") == 0){
-		path_main();
+
+	else if (strcmp(input,"montecarlo") == 0){
+		montecarlo();
+	}
+	else if (strcmp(input,"roundrobin") == 0){
+		round_robin();
 	}
 
 	else system(input);
