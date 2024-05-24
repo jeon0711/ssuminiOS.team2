@@ -8,21 +8,20 @@ LDFLAGS=-lreadline
 TARGET=minios
 
 # Source, Object files
-SRCS=kernel/kernel.c kernel/system.c
-OBJS=$(SRCS:.c=.o) 
+SRCS=kernel/kernel.c kernel/system.c kernel/team2/filesearch.c 
+OBJS=$(SRCS:.c=.o)
 
 # Include directory
 INCLUDE_DIR=include
 
 all: $(TARGET)
 
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJS) 
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 
 # To obtain object files
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
-
 # Clean up:
 clean:
 	rm -f $(OBJS) $(TARGET)

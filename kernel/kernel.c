@@ -19,10 +19,14 @@ int main() {
         if (strcmp(input,"exit") == 0) {
             break;
         }
-
-        if (strcmp(input,"minisystem") == 0){
+        else if (strcmp(input,"minisystem") == 0){
             minisystem();
         }
+        else if(strcmp(input,"filesearch")==0)
+        {
+            filesearch(NULL,NULL);
+        }
+
         else system(input);
     }
 
