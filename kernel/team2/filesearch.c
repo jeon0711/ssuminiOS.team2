@@ -92,7 +92,6 @@ void filesearch(char *path, char *target) {
             }
         }
     } while (FindNextFile(hFind, &findFileData) != 0);
-
     FindClose(hFind);
 #else
     struct dirent **list;
