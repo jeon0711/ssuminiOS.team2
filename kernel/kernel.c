@@ -3,10 +3,8 @@
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-
 #include "system.h"
 void print_minios(char* str);
-
 int main() {
     print_minios("[MiniOS SSU] Hello, World!");
 
@@ -29,11 +27,9 @@ int main() {
 
         else system(input);
     }
-
     // 메모리 해제
     free(input);
     print_minios("[MiniOS SSU] MiniOS Shutdown........");
-
     return(1);
 }
 
