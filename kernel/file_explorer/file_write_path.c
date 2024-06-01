@@ -25,7 +25,7 @@ void list_directory(const char *path) {
 void execute_file(const char *path) {
     struct stat sb;
     if (stat(path, &sb) != 0) {
-        printf("File does not exist or is not executable\n");
+        printf("파일이 존재하지 않거나 실행 가능하지 않습니다.\n");
         return;
     }
 
@@ -53,7 +53,7 @@ void execute_file(const char *path) {
 void file_explorer() {
     char command[256], path[256];
     while (1) {
-        printf("Enter command (list <directory>, exec <file>, or exit): ");
+        printf("추가 명령어를 입력하세요. (list <directory>, exec <file>, or exit): ");
         if (!fgets(command, sizeof(command), stdin)) break;
         command[strcspn(command, "\n")] = 0;
         if (strcmp(command, "exit") == 0) {
@@ -64,7 +64,7 @@ void file_explorer() {
         } else if (sscanf(command, "exec %s", path) == 1) {
             execute_file(path);
         } else {
-            printf("Invalid command. Use 'list <directory>', 'exec <file>', or 'exit'.\n");
+            printf("입력 오류가 발생했습니다. Use 'list <directory>', 'exec <file>', or 'exit'.\n");
         }
     }
 }

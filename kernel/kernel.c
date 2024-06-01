@@ -12,11 +12,17 @@ int main() {
 
     char *input;
 
-    while(1) {
-        // readline을 사용하여 입력 받기
-        input = readline("커맨드를 입력하세요(종료:exit) : ");
+    while (1) {
+        // 여러 줄로 프롬프트 출력
+        printf("================================\n");
+        printf("사용하고자 하는 명령어를 입력하세요\n");
+        printf("입력가능 명령어\n");
+        printf("createFolder, deleteFolder, copyFile, fileSearch, filePath\n");
+        printf("종료: exit\n");
+        printf("================================\n");
+        input = readline(">");
 
-        if (strcmp(input,"exit") == 0) {
+            if (strcmp(input,"exit") == 0) {
             break;
         }
 
