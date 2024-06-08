@@ -5,6 +5,10 @@
 #include <readline/history.h>
 
 #include "system.h"
+
+void *createFolderTask(void *arg);
+void *deleteFolderTask(void *arg);
+void *copyFileTask(void *arg);
 void print_minios(char* str);
 
 int main() {
@@ -26,16 +30,12 @@ int main() {
             break;
         }
 
-	if (strcmp(input, "createFolder") == 0){
-		createFolder();
-        }
-        
-	else if (strcmp(input, "deleteFolder") == 0){
-		deleteFolder();
-	}
-
-	else if (strcmp(input, "copyFile") == 0){
-		copyFile();
+	if (strcmp(input, "createFolder") == 0) {
+            createFolder();
+        } else if (strcmp(input, "deleteFolder") == 0) {
+            deleteFolder();
+        } else if (strcmp(input, "copyFile") == 0) {
+            copyFile();
 	}
 
 	else if (strcmp(input, "fileSearch") == 0){

@@ -4,6 +4,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <errno.h>
+#include "schedule_task.h"
 
 #ifdef _WIN32
 #include <direct.h>
@@ -21,6 +22,7 @@ typedef struct {
 
 // 폴더 생성 함수
 void *createFolderTask(void *arg) {
+    //printf("thread created\n");                 //debug-log
     FolderArgs *args = (FolderArgs *)arg;
     char fullPath[1024];
 
@@ -29,23 +31,29 @@ void *createFolderTask(void *arg) {
     #ifdef _WIN32
     if (mkdir(fullPath) == 0) {
         printf("폴더 생성 성공: %s\n", fullPath);
+        printf(">");
     } else {
         perror("폴더 생성 실패");
+        printf(">");
     }
     #else
     if (mkdir(fullPath, 0777) == 0) {
         printf("폴더 생성 성공: %s\n", fullPath);
+        printf(">");
     } else {
         perror("폴더 생성 실패");
+        printf(">");
     }
     #endif
 
     free(args->folderPath);
     free(args->folderName);
     free(args);
+    //printf("thread exit\n");                 //debug-log
     return NULL;
 }
 
+// createFolder 함수
 void createFolder() {
     char folderPath[1024];
     printf("생성하고자 하는 폴더 경로를 입력하세요: ");
@@ -57,34 +65,42 @@ void createFolder() {
     fgets(folderName, sizeof(folderName), stdin);
     folderName[strcspn(folderName, "\n")] = '\0';  // 개행 문자 제거
 
-    getchar();  // 버퍼 비우기
-
+    // FolderArgs 구조체에 정보 저장
     FolderArgs *args = (FolderArgs *)malloc(sizeof(FolderArgs));
     args->folderPath = strdup(folderPath);
     args->folderName = strdup(folderName);
 
+    // scheduleTask 함수를 사용하여 스레드 생성 및 createFolderTask 실행
     scheduleTask(createFolderTask, (void *)args);
+    
+    // 메시지 출력
+    printf("폴더 생성 작업이 백그라운드에서 실행됩니다.\n");
 }
-
 // 폴더 삭제 함수
 void *deleteFolderTask(void *arg) {
+    //printf("thread created\n");                 //debug-log
     char *folderPath = (char *)arg;
 
     #ifdef _WIN32
     if (rmdir(folderPath) == 0) {
         printf("폴더 삭제 성공: %s\n", folderPath);
+        printf(">");
     } else {
         perror("폴더 삭제 실패");
+        printf(">");
     }
     #else
     if (rmdir(folderPath) == 0) {
         printf("폴더 삭제 성공: %s\n", folderPath);
+        printf(">");
     } else {
         perror("폴더 삭제 실패");
+        printf(">");
     }
     #endif
 
     free(folderPath);
+    //printf("thread exit\n");                 //debug-log
     return NULL;
 }
 
@@ -94,14 +110,13 @@ void deleteFolder() {
     fgets(folderPath, sizeof(folderPath), stdin);
     folderPath[strcspn(folderPath, "\n")] = '\0';  // 개행 문자 제거
 
-    getchar();  // 버퍼 비우기
-
     char *folderPathCopy = strdup(folderPath);
     scheduleTask(deleteFolderTask, (void *)folderPathCopy);
 }
 
 // 파일 복사 함수
 void *copyFileTask(void *arg) {
+    //printf("thread created\n");                 //debug-log
     char **fileNames = (char **)arg;
     char *sourceFileName = fileNames[0];
     char *destinationFileName = fileNames[1];
@@ -139,7 +154,8 @@ void *copyFileTask(void *arg) {
     free(sourceFileName);
     free(destinationFileName);
     free(fileNames);
-
+    
+    //printf("thread exit\n");                 //debug-log
     return NULL;
 }
 
@@ -154,20 +170,11 @@ void copyFile() {
     fgets(destinationFileName, sizeof(destinationFileName), stdin);
     destinationFileName[strcspn(destinationFileName, "\n")] = '\0';  // 개행 문자 제거
 
-    getchar();  // 버퍼 비우기
 
     char **fileNames = (char **)malloc(2 * sizeof(char *));
     fileNames[0] = strdup(sourceFileName);
     fileNames[1] = strdup(destinationFileName);
 
     scheduleTask(copyFileTask, (void *)fileNames);
-}
-
-// 스케줄링 함수
-void scheduleTask(void *(*task)(void *), void *arg) {
-    sleep(1);  // 1초 대기
-    pthread_t thread;
-    pthread_create(&thread, NULL, task, arg);
-    pthread_detach(thread);
 }
 
