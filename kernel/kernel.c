@@ -47,13 +47,15 @@ int main() {
 	}
 
 	else system(input);
+
     }
 
     // 메모리 해제
     free(input);
     print_minios("[MiniOS SSU] MiniOS Shutdown........");
 
-    return(1);
+    exit(0);
+
 }
 
 void print_minios(char* str) {
