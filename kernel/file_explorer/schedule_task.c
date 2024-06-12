@@ -11,7 +11,7 @@ void scheduleTask(void *(*task)(void *), void *arg) {
     while (1) {
         // 현재 실행 중인 스레드 수가 최대 스레드 수에 도달할 때까지 대기
         while (running_threads > MAX_THREADS) {
-            usleep(1000000); // 0.1초 대기
+            usleep(100000); // 0.1초 대기
             printf("thread is waiting..\n");
         }
         

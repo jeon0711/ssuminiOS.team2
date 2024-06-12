@@ -22,7 +22,6 @@ typedef struct {
 
 // 폴더 생성 함수
 void *createFolderTask(void *arg) {
-    //printf("thread created\n");                 //debug-log
     FolderArgs *args = (FolderArgs *)arg;
     char fullPath[1024];
 
@@ -49,7 +48,6 @@ void *createFolderTask(void *arg) {
     free(args->folderPath);
     free(args->folderName);
     free(args);
-    //printf("thread exit\n");                 //debug-log
     return NULL;
 }
 
@@ -78,7 +76,6 @@ void createFolder() {
 }
 // 폴더 삭제 함수
 void *deleteFolderTask(void *arg) {
-    //printf("thread created\n");                 //debug-log
     char *folderPath = (char *)arg;
 
     #ifdef _WIN32
@@ -100,7 +97,6 @@ void *deleteFolderTask(void *arg) {
     #endif
 
     free(folderPath);
-    //printf("thread exit\n");                 //debug-log
     return NULL;
 }
 
@@ -116,7 +112,6 @@ void deleteFolder() {
 
 // 파일 복사 함수
 void *copyFileTask(void *arg) {
-    //printf("thread created\n");                 //debug-log
     char **fileNames = (char **)arg;
     char *sourceFileName = fileNames[0];
     char *destinationFileName = fileNames[1];
@@ -155,7 +150,6 @@ void *copyFileTask(void *arg) {
     free(destinationFileName);
     free(fileNames);
     
-    //printf("thread exit\n");                 //debug-log
     return NULL;
 }
 
