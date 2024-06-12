@@ -3,33 +3,59 @@
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+
 #include "system.h"
+
+void *createFolderTask(void *arg);
+void *deleteFolderTask(void *arg);
+void *copyFileTask(void *arg);
 void print_minios(char* str);
+
 int main() {
     print_minios("[MiniOS SSU] Hello, World!");
 
     char *input;
 
-    while(1) {
-        // readline을 사용하여 입력 받기
-        input = readline("커맨드를 입력하세요(종료:exit) : ");
+    while (1) {
+        // 여러 줄로 프롬프트 출력
+        printf("================================\n");
+        printf("사용하고자 하는 명령어를 입력하세요\n");
+        printf("입력가능 명령어\n");
+        printf("createFolder, deleteFolder, copyFile, fileSearch, filePath\n");
+        printf("종료: exit\n");
+        printf("================================\n");
+        input = readline(">");
 
-        if (strcmp(input,"exit") == 0) {
+            if (strcmp(input,"exit") == 0) {
             break;
         }
-        else if (strcmp(input,"minisystem") == 0){
-            minisystem();
-        }
-        else if(strcmp(input,"filesearch")==0)
-        {
-            filesearch(NULL,NULL);
-        }
-        else system(input);
+
+	if (strcmp(input, "createFolder") == 0) {
+            createFolder();
+        } else if (strcmp(input, "deleteFolder") == 0) {
+            deleteFolder();
+        } else if (strcmp(input, "copyFile") == 0) {
+            copyFile();
+	}
+
+	else if (strcmp(input, "fileSearch") == 0){
+		filesearch(NULL, NULL);	
+	}
+	
+	else if (strcmp(input, "filePath") == 0){
+		path_main();
+	}
+
+	else system(input);
+
     }
+
     // 메모리 해제
     free(input);
     print_minios("[MiniOS SSU] MiniOS Shutdown........");
+
     exit(0);
+
 }
 
 void print_minios(char* str) {
