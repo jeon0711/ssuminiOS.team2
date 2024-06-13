@@ -36,7 +36,7 @@ static fileLinkedList* head = NULL;
 static fileLinkedList* tail = NULL;
 
 void addLink(char* path) {
-    fileLinkedList* rt = (fileLinkedList*)malloc(sizeof(fileLinkedList));
+    fileLinkedList* rt = (fileLinkedList*)malloc(256* sizeof(fileLinkedList));
     strcpy(rt->path, path);
     rt->next = NULL;
 
@@ -94,9 +94,9 @@ void* filesearchTask(void* arg) {
         }
         sprintf(pathbuf2, "%s/%s", pathbuf, findFileData.cFileName);
         if (findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-            fileLinkedList* newArgs = (fileLinkedList*)malloc(sizeof(fileLinkedList));
+            fileLinkedList* newArgs = (fileLinkedList*)malloc(256* sizeof(fileLinkedList));
             strcpy(newArgs->path, pathbuf2);
-            newArgs->next = (fileLinkedList*)malloc(sizeof(fileLinkedList));
+            newArgs->next = (fileLinkedList*)malloc(256* sizeof(fileLinkedList));
             strcpy(newArgs->next->path, target);
             scheduleTask(filesearchTask, newArgs);
         } else {
@@ -126,9 +126,9 @@ void* filesearchTask(void* arg) {
                 addLink(pathbuf2);
             }
         } else if (S_ISDIR(statbuf.st_mode)) {
-            fileLinkedList* newArgs = (fileLinkedList*)malloc(sizeof(fileLinkedList));
+            fileLinkedList* newArgs = (fileLinkedList*)malloc(256* sizeof(fileLinkedList));
             strcpy(newArgs->path, pathbuf2);
-            newArgs->next = (fileLinkedList*)malloc(sizeof(fileLinkedList));
+            newArgs->next = (fileLinkedList*)malloc(256* sizeof(fileLinkedList));
             strcpy(newArgs->next->path, target);
             scheduleTask(filesearchTask, newArgs);
         }
@@ -165,9 +165,9 @@ void filesearch(char* path, char* target) {
         strcpy(filename, target);
     }
 
-    fileLinkedList* args = (fileLinkedList*)malloc(sizeof(fileLinkedList));
+    fileLinkedList* args = (fileLinkedList*)malloc(256* sizeof(fileLinkedList));
     strcpy(args->path, pathbuf);
-    args->next = (fileLinkedList*)malloc(sizeof(fileLinkedList));
+    args->next = (fileLinkedList*)malloc(256* sizeof(fileLinkedList));
     strcpy(args->next->path, filename);
     scheduleTask(filesearchTask, args);
 }
